@@ -287,11 +287,11 @@
 
 
                     if(btnElement) {
-                        const icon = btnElement.querySelector('span.material-symbols-outlined');
+                        const icon = btnElement.querySelector('.material-symbols-outlined');
                         if (data.action === 'added') {
-                            icon.classList.add('fill-current', 'text-brand');
+                            icon.classList.add('filled-icon', 'text-brand');
                         } else {
-                            icon.classList.remove('fill-current', 'text-brand');
+                            icon.classList.remove('filled-icon', 'text-brand');
                         }
                     }
                 }

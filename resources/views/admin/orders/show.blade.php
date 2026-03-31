@@ -10,7 +10,7 @@
 <div class="flex flex-col lg:flex-row gap-6">
     <!-- LEFT -->
     <div class="lg:w-[65%] space-y-6">
-        <div class="bg-white rounded-lg shadow-sm p-6 border-t-4 border-gold">
+        <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-gold">
             <div class="flex justify-between items-start mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800">Order
@@ -63,9 +63,9 @@
                                     @if($item->selected_color) <span>Color: <strong class="text-gray-700">{{ $item->selected_color }}</strong></span> @endif
                                 </div>
                             </td>
-                            <td class="px-4 py-3 text-gray-600">${{ number_format($item->product_price, 2) }}</td>
+                            <td class="px-4 py-3 text-gray-600">{!! formatPrice($item->product_price) !!}</td>
                             <td class="px-4 py-3 font-semibold text-gray-700">{{ $item->quantity }}</td>
-                            <td class="px-4 py-3 text-right font-bold text-gray-800">${{ number_format($item->subtotal, 2) }}</td>
+                            <td class="px-4 py-3 text-right font-bold text-gray-800">{!! formatPrice($item->subtotal) !!}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -76,11 +76,11 @@
                 <div class="w-64 space-y-3">
                     <div class="flex justify-between text-gray-600 border-b pb-2">
                         <span>Items Subtotal:</span>
-                        <span>${{ number_format($order->items->sum('subtotal'), 2) }}</span>
+                        <span>{!! formatPrice($order->items->sum('subtotal')) !!}</span>
                     </div>
                     <div class="flex justify-between text-xl font-bold text-gray-900 pt-2">
                         <span>Total:</span>
-                        <span>${{ number_format($order->total, 2) }}</span>
+                        <span>{!! formatPrice($order->total) !!}</span>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
 
     <!-- RIGHT -->
     <div class="lg:w-[35%] space-y-6">
-        <div class="bg-white rounded-lg shadow-sm p-6 border-l-2 border-gray-300">
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-2 border-gray-300">
             <h3 class="font-bold text-gray-700 mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> Customer Info</h3>
             <div class="text-sm space-y-2 text-gray-600 mb-6">
                 <p><span class="text-gray-400 mr-2">Name:</span> <strong class="text-gray-800">{{ $order->customer_name ?? 'N/A' }}</strong></p>

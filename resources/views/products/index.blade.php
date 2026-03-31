@@ -121,7 +121,7 @@
                             onclick="event.preventDefault(); toggleWishlist({{ $product->id }}, this)"
                             aria-label="Wishlist">
                             <span
-                                class="material-symbols-outlined text-sm {{ in_array($product->id, session('wishlist', [])) ? 'fill-current text-brand' : 'filled' }}">favorite</span>
+                                class="material-symbols-outlined text-sm {{ in_array($product->id, session('wishlist', [])) ? 'filled-icon text-brand' : '' }}">favorite</span>
                         </button>
 
 

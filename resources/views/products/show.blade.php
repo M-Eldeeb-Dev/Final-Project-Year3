@@ -101,7 +101,7 @@
                             data-add-cart="{{ $product->id }}"
                             data-i18n="add-to-cart">Add to Cart</button>
                     <button type="button" class="w-14 h-14 border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-red-500 hover:border-red-500 transition-all group" onclick="toggleWishlist({{ $product->id }}, this)">
-                        <span class="material-symbols-outlined text-xl {{ in_array($product->id, session('wishlist', [])) ? 'fill-current text-brand' : 'group-hover:fill-red-500' }}">favorite</span>
+                        <span class="material-symbols-outlined text-xl {{ in_array($product->id, session('wishlist', [])) ? 'filled-icon text-brand' : '' }}">favorite</span>
                     </button>
                 </div>
             </div>
@@ -152,8 +152,8 @@
                     <img src="{{ $rel->image_url }}" alt="{{ $rel->name }}" class="product-img w-full h-full object-cover" loading="lazy">
                 </a>
                 <button class="absolute top-3 end-3 w-8 h-8 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-brand transition-colors z-10"
-                        data-wishlist-btn="{{ $rel->id }}" aria-label="Add to wishlist">
-                    <span class="material-symbols-outlined text-sm">favorite</span>
+                        onclick="event.preventDefault(); toggleWishlist({{ $rel->id }}, this)" aria-label="Add to wishlist">
+                    <span class="material-symbols-outlined text-sm {{ in_array($rel->id, session('wishlist', [])) ? 'filled-icon text-brand' : '' }}">favorite</span>
                 </button>
                 <div class="p-4 flex flex-col flex-1">
                     <h3 class="font-headline text-xs text-[var(--text)] capitalize tracking-wide mb-2 group-hover:text-brand transition-colors line-clamp-1">{{ $rel->name }}</h3>

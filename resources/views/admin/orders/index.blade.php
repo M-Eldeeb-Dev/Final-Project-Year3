@@ -2,9 +2,9 @@
 @section('page-title', 'Orders')
 
 @section('content')
-<div class="mb-6 flex space-x-2">
+<div class="mb-8 flex flex-nowrap overflow-x-auto no-scrollbar border-b border-gray-100 gap-2">
     @php
-        $tabs = ['all' => 'All', 'pending' => 'Pending', 'processing' => 'Processing', 'shipped' => 'Shipped', 'delivered' => 'Delivered', 'cancelled' => 'Cancelled'];
+        $tabs = ['all' => 'All Orders', 'pending' => 'Pending', 'processing' => 'Processing', 'shipped' => 'Shipped', 'delivered' => 'Delivered', 'cancelled' => 'Cancelled'];
         $current = request('status', 'all');
     @endphp
     @foreach($tabs as $key => $label)
@@ -13,27 +13,52 @@
             $count = $key === 'all' ? array_sum($statusCounts->toArray()) : ($statusCounts[$key] ?? 0);
         @endphp
         <a href="{{ route('admin.orders.index', array_merge(request()->query(), ['status' => $key === 'all' ? null : $key])) }}"
-           class="px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 {{ $isActive ? 'border-gold text-gold bg-white' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
-            {{ $label }} <span class="ml-1 px-2 py-0.5 rounded-full text-xs {{ $isActive ? 'bg-gold text-white' : 'bg-gray-100 text-gray-600' }}">{{ $count }}</span>
+           class="px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap {{ $isActive ? 'border-b-2 border-gold text-gold bg-gold/5' : 'text-gray-400 hover:text-gray-700' }}">
+            {{ $label }} 
+            <span class="ml-2 px-1.5 py-0.5 rounded text-[10px] {{ $isActive ? 'bg-gold text-black' : 'bg-gray-100 text-gray-500' }}">{{ $count }}</span>
         </a>
     @endforeach
 </div>
 
-<div class="bg-white rounded-lg shadow-sm border border-gray-100">
-    <div class="p-4 border-b border-gray-100 bg-gray-50 rounded-t-lg">
-        <form method="GET" class="flex flex-wrap gap-4">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    {{-- FILTER BAR --}}
+    <div class="p-5 border-b border-gray-100 bg-white">
+        <form method="GET" class="flex flex-col lg:flex-row lg:items-center gap-6">
             <input type="hidden" name="status" value="{{ request('status') }}">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search Order
-            <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500">From:</span>
-                <input type="date" name="date_from" value="{{ request('date_from') }}" class="border-gray-300 rounded focus:border-[#C9A84C] text-sm px-3 py-1.5 border">
+            
+            {{-- Search Field --}}
+            <div class="flex-1 relative group">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm group-focus-within:text-gold transition-colors">search</span>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by number, customer or email..." 
+                       class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:bg-white focus:border-gold focus:ring-4 focus:ring-gold/5 outline-none transition-all">
             </div>
-            <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500">To:</span>
-                <input type="date" name="date_to" value="{{ request('date_to') }}" class="border-gray-300 rounded focus:border-[#C9A84C] text-sm px-3 py-1.5 border">
+
+            <div class="flex flex-wrap items-center gap-4">
+                {{-- Date Range --}}
+                <div class="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-1 gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase">From</span>
+                        <input type="date" name="date_from" value="{{ request('date_from') }}" class="bg-transparent border-none text-sm p-1 focus:ring-0 outline-none text-gray-700">
+                    </div>
+                    <div class="w-px h-6 bg-gray-200"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase">To</span>
+                        <input type="date" name="date_to" value="{{ request('date_to') }}" class="bg-transparent border-none text-sm p-1 focus:ring-0 outline-none text-gray-700">
+                    </div>
+                </div>
+
+                {{-- Action Buttons --}}
+                <div class="flex items-center gap-2 ms-auto">
+                    <button type="submit" class="bg-[#0A0A0A] text-white px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-black hover:shadow-lg transition-all active:scale-95">
+                        Apply Filters
+                    </button>
+                    @if(request()->anyFilled(['search', 'date_from', 'date_to']))
+                        <a href="{{ route('admin.orders.index', ['status' => request('status')]) }}" class="text-gray-400 hover:text-red-500 text-xs font-bold uppercase tracking-widest px-3 py-2.5 transition-colors">
+                            Clear
+                        </a>
+                    @endif
+                </div>
             </div>
-            <button type="submit" class="bg-gray-800 text-white px-4 py-1.5 rounded text-sm hover:bg-black transition-colors">Apply Filters</button>
-            <a href="{{ route('admin.orders.index') }}" class="text-gray-500 hover:text-gray-700 text-sm px-2 py-1.5">Clear</a>
         </form>
     </div>
 
@@ -59,7 +84,7 @@
                             <div class="text-xs text-gray-500">{{ $order->customer_email }}</div>
                         </td>
                         <td class="px-4 py-3 text-center">{{ $order->items_count ?? $order->items->sum('quantity') }}</td>
-                        <td class="px-4 py-3 font-semibold">${{ number_format($order->total, 2) }}</td>
+                        <td class="px-4 py-3 font-semibold">{!! formatPrice($order->total) !!}</td>
                         <td class="px-4 py-3">
                             <form action="{{ route('admin.orders.status', $order) }}" method="POST" x-data="{ loading: false }" @submit="loading = true">
                                 @csrf @method('PATCH')

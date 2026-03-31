@@ -2,18 +2,18 @@
 @section('page-title', 'Contact Messages')
 
 @section('content')
-<div class="mb-6 flex space-x-2">
+<div class="mb-8 flex flex-nowrap overflow-x-auto no-scrollbar border-b border-gray-100 gap-2">
     <a href="{{ route('admin.messages.index') }}"
-       class="px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 {{ !request('filter') ? 'border-gold text-gold bg-white' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
+       class="px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap {{ !request('filter') ? 'border-b-2 border-gold text-gold bg-gold/5' : 'text-gray-400 hover:text-gray-700' }}">
         All Messages
     </a>
     <a href="{{ route('admin.messages.index', ['filter' => 'unread']) }}"
-       class="px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 {{ request('filter') === 'unread' ? 'border-gold text-gold bg-white' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
-        Unread <span class="ml-1 px-2 py-0.5 rounded-full text-xs {{ $unreadCount > 0 ? 'bg-red-500 text-white animate-pulse' : 'bg-gray-200 text-gray-600' }}">{{ $unreadCount }}</span>
+       class="px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap {{ request('filter') === 'unread' ? 'border-b-2 border-gold text-gold bg-gold/5' : 'text-gray-400 hover:text-gray-700' }}">
+        Unread <span class="ml-2 px-1.5 py-0.5 rounded text-[10px] {{ $unreadCount > 0 ? 'bg-red-500 text-white animate-pulse' : 'bg-gray-100 text-gray-500' }}">{{ $unreadCount }}</span>
     </a>
 </div>
 
-<div class="bg-white rounded-lg shadow-sm border border-gray-100">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-sm text-left border-t border-gray-100">
             <thead class="text-xs text-gray-500 bg-gray-50 uppercase border-b">

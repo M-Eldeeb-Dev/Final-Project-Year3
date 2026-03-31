@@ -3,7 +3,7 @@
 
 @section('content')
 <!-- STATS ROW 1 -->
-<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 gold-border">
         <div class="flex justify-between items-start">
             <div>
@@ -41,7 +41,7 @@
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Total Revenue</p>
-                <h3 class="text-24px font-bold text-gray-800 mt-1">${{ number_format($stats['total_revenue'], 2) }}</h3>
+                <h3 class="text-24px font-bold text-gray-800 mt-1">{!! formatPrice($stats['total_revenue']) !!}</h3>
             </div>
             <div class="p-2 bg-yellow-50 text-yellow-500 rounded">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-yellow-400">
         <div class="flex justify-between items-start">
             <div>
@@ -122,7 +122,7 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-4 py-3 font-medium text-gray-900">#{{ $order->order_number }}</td>
                             <td class="px-4 py-3">{{ $order->customer_email }}</td>
-                            <td class="px-4 py-3 font-semibold">${{ number_format($order->total, 2) }}</td>
+                            <td class="px-4 py-3 font-semibold">{!! formatPrice($order->total) !!}</td>
                             <td class="px-4 py-3">
                                 @php
                                     $bg = 'bg-gray-100 text-gray-800';
@@ -170,7 +170,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-sm font-bold text-gray-800">${{ number_format($prod->total_revenue, 2) }}</p>
+                            <p class="text-sm font-bold text-gray-800">{!! formatPrice($prod->total_revenue) !!}</p>
                         </div>
                     </li>
                 @empty
@@ -186,8 +186,8 @@
     <div class="p-4 border-b border-gray-100 bg-gray-50 rounded-t-lg text-gray-700 font-semibold">
         Monthly Revenue ({{ date('Y') }})
     </div>
-    <div class="p-6">
-        <div class="flex items-end space-x-2 h-64">
+    <div class="p-6 overflow-x-auto no-scrollbar">
+        <div class="flex items-end space-x-2 h-64 min-w-[600px]">
             @php
                 $months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                 $maxRev = count($monthly_revenue) > 0 ? max($monthly_revenue->pluck('revenue')->toArray()) : 1;

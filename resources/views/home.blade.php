@@ -163,8 +163,8 @@
                         {{-- Wishlist --}}
                         <button
                             class="absolute top-3 end-3 w-8 h-8 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-brand transition-colors z-10"
-                            data-wishlist-btn="{{ $product->id }}" aria-label="Add to wishlist">
-                            <span class="material-symbols-outlined text-sm filled">favorite</span>
+                            onclick="event.preventDefault(); toggleWishlist({{ $product->id }}, this)" aria-label="Add to wishlist">
+                            <span class="material-symbols-outlined text-sm {{ in_array($product->id, session('wishlist', [])) ? 'filled-icon text-brand' : '' }}">favorite</span>
                         </button>
 
                         {{-- Info --}}

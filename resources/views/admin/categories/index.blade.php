@@ -2,10 +2,14 @@
 @section('page-title', 'Categories')
 
 @section('content')
-<div class="bg-white rounded-lg shadow-sm border border-gray-100">
-    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-lg">
-        <h3 class="font-semibold text-gray-700">All Categories</h3>
-        <a href="{{ route('admin.categories.create') }}" class="bg-gold hover:bg-[#b09038] text-white px-4 py-2 rounded text-sm font-semibold transition-colors">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    {{-- HEADER --}}
+    <div class="p-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center bg-white gap-4">
+        <div>
+            <h3 class="font-bold text-gray-900 tracking-tight">All Categories</h3>
+            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Manage store collections</p>
+        </div>
+        <a href="{{ route('admin.categories.create') }}" class="w-full sm:w-auto text-center bg-gold hover:bg-[#b09038] text-white px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-sm shadow-gold/20">
             + Add Category
         </a>
     </div>

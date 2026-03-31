@@ -3,32 +3,52 @@
 
 @section('content')
 <div class="bg-white rounded-lg shadow-sm border border-gray-100">
-    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-lg">
-        <div class="flex space-x-2">
-            <form method="GET" class="flex space-x-2">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search products..." class="border-gray-300 rounded focus:border-[#C9A84C] focus:ring-[#C9A84C] text-sm px-3 py-1.5 border">
+    {{-- FILTER BAR --}}
+    <div class="p-5 border-b border-gray-100 bg-white">
+        <form method="GET" class="flex flex-col lg:flex-row lg:items-center gap-6">
+            {{-- Search Field --}}
+            <div class="flex-1 relative group">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm group-focus-within:text-gold transition-colors">search</span>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search products by name, SKU..." 
+                       class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:bg-white focus:border-gold focus:ring-4 focus:ring-gold/5 outline-none transition-all">
+            </div>
 
-                <select name="category" class="border-gray-300 rounded focus:border-[#C9A84C] text-sm px-3 py-1.5 border">
-                    <option value="">All Categories</option>
-                    @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
-                    @endforeach
-                </select>
+            <div class="flex flex-wrap items-center gap-4">
+                {{-- Dropdowns --}}
+                <div class="flex items-center gap-2">
+                    <select name="category" class="bg-gray-50 border border-gray-200 rounded-lg text-xs font-bold uppercase tracking-widest px-4 py-2 focus:bg-white focus:border-gold outline-none transition-all cursor-pointer">
+                        <option value="">All Categories</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
 
-                <select name="status" class="border-gray-300 rounded focus:border-[#C9A84C] text-sm px-3 py-1.5 border">
-                    <option value="">All Statuses</option>
-                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
-                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
-                    <option value="low" {{ request('status') === 'low' ? 'selected' : '' }}>Low Stock</option>
-                    <option value="trashed" {{ request('status') === 'trashed' ? 'selected' : '' }}>Trashed</option>
-                </select>
+                    <select name="status" class="bg-gray-50 border border-gray-200 rounded-lg text-xs font-bold uppercase tracking-widest px-4 py-2 focus:bg-white focus:border-gold outline-none transition-all cursor-pointer">
+                        <option value="">All Statuses</option>
+                        <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        <option value="low" {{ request('status') === 'low' ? 'selected' : '' }}>Low Stock</option>
+                        <option value="trashed" {{ request('status') === 'trashed' ? 'selected' : '' }}>Trashed</option>
+                    </select>
+                </div>
 
-                <button type="submit" class="bg-gray-800 text-white px-3 py-1.5 rounded text-sm hover:bg-black transition-colors">Filter</button>
-            </form>
-        </div>
-        <a href="{{ route('admin.products.create') }}" class="bg-gold hover:bg-[#b09038] text-white px-4 py-2 rounded text-sm font-semibold transition-colors">
-            + Add Product
-        </a>
+                {{-- Action Buttons --}}
+                <div class="flex items-center gap-2 ms-auto">
+                    <button type="submit" class="bg-[#0A0A0A] text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-black hover:shadow-lg transition-all active:scale-95">
+                        Filter
+                    </button>
+                    @if(request()->anyFilled(['search', 'category', 'status']))
+                        <a href="{{ route('admin.products.index') }}" class="text-gray-400 hover:text-red-500 text-xs font-bold uppercase tracking-widest px-3 py-2 transition-colors">
+                            Clear
+                        </a>
+                    @endif
+                    <div class="w-px h-6 bg-gray-200 mx-2 hidden sm:block"></div>
+                    <a href="{{ route('admin.products.create') }}" class="bg-gold hover:bg-[#b09038] text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-sm shadow-gold/20">
+                        + Add Product
+                    </a>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="overflow-x-auto">
