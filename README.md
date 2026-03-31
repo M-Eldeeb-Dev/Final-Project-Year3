@@ -1,6 +1,6 @@
 # DEEPIFY — Wear the Future
 
-![Deepify Banner](<img width="1909" height="956" alt="image" src="https://github.com/user-attachments/assets/a16a09ed-1512-4b9b-9b1d-26a7c9fe1abd" />)
+<img width="1909" height="956" alt="Deepify Banner" src="https://github.com/user-attachments/assets/a16a09ed-1512-4b9b-9b1d-26a7c9fe1abd" />
 
 ## 1. Project Description
 **Deepify** is a premium, futuristic e-commerce platform engineered for next-generation streetwear. Designed with a "tech-noir" aesthetic, the site provides a seamless, high-performance shopping experience. It moves beyond simple transactions to offer a curated digital showroom for progressive fashion, featuring real-time interactions, session-based persistence, and a comprehensive administrative command center.
